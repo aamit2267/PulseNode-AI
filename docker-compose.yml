@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: pulsenode-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pulsenode
+      POSTGRES_PASSWORD: pulsenode_dev
+      POSTGRES_DB: pulsenode_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - pulsenode_postgres_data:/var/lib/postgresql/data
+
+  mongo:
+    image: mongo:7
+    container_name: pulsenode-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: pulsenode
+      MONGO_INITDB_ROOT_PASSWORD: pulsenode_dev
+      MONGO_INITDB_DATABASE: pulsenode_dev
+    ports:
+      - "27017:27017"
+    volumes:
+      - pulsenode_mongo_data:/data/db
+
+  redis:
+    image: redis:7-alpine
+    container_name: pulsenode-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - pulsenode_redis_data:/data
+
+volumes:
+  pulsenode_postgres_data:
+  pulsenode_mongo_data:
+  pulsenode_redis_data:
