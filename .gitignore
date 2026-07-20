@@ -1,1 +1,135 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+
+# Environment files
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS files
+Thumbs.db
+ehthumbs.db
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Build artifacts
+*.tsbuildinfo
+dist-ssr/
+*.local
+
+# Turbo
+.turbo/
+
+# Vercel
+.vercel
+
+# Turbo repo
+.turbo
+
+# Turbo build
+*.tsbuildinfo
+
+# Local netlify folder
+.netlify
+
+# Wrangler
+.wrangler
+
+# pnpm store
+.pnpm-store
+
+# Turbo cache
+.turbo
+
+# Docusaurus cache
+.docusaurus
+
+# Next.js
+.next/
+out/
+
+# Production
+build/
+
+# Misc
+*.pem
+.vercel
+.netlify
+
+# Package-specific (monorepo packages)
+packages/*/node_modules/
+packages/*/dist/
+packages/*/build/
+packages/*/.next/
+packages/*/.turbo/
+packages/*/.vercel/
+packages/*/coverage/
+packages/*/.nyc_output/
+packages/*/.tsbuildinfo
+packages/*/dist-ssr/
+packages/*/.next/
+packages/*/out/
+packages/*/build/
+packages/*/.vercel/
+packages/*/.netlify/
+packages/*/.wrangler/
+packages/*/.pnpm-store/
+packages/*/.docusaurus/
+packages/*/*.tsbuildinfo
+packages/*/*.pem
+
+# Drizzle
+packages/api/drizzle/
+packages/api/.drizzle/
+
+# Drizzle Kit
+packages/api/.drizzle/
+
+# Test coverage
+packages/*/coverage/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
