@@ -1,6 +1,6 @@
-# BuzzHealth.ai — AI Agent Workflows
+# PulseNode.ai — AI Agent Workflows
 
-These are workflows within the *product itself* where an AI agent performs a bounded task with a clear trigger, output contract, and guardrails. **Gemini (2.5/3.1 Flash) is the primary model for all workflows below** — genuine ongoing free tier at BuzzHealth.ai's current volume (~150–200 calls/day). **Groq** (free, ongoing) is the fallback if Gemini is unavailable or rate-limited. Claude is reserved for development/prompt-tuning only, not routed in production, since Anthropic has no ongoing free API tier.
+These are workflows within the *product itself* where an AI agent performs a bounded task with a clear trigger, output contract, and guardrails. **Gemini (2.5/3.1 Flash) is the primary model for all workflows below** — genuine ongoing free tier at PulseNode.ai's current volume (~150–200 calls/day). **Groq** (free, ongoing) is the fallback if Gemini is unavailable or rate-limited. Claude is reserved for development/prompt-tuning only, not routed in production, since Anthropic has no ongoing free API tier.
 
 Each workflow is independently buildable so several can be developed in parallel.
 

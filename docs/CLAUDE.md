@@ -1,8 +1,8 @@
-# CLAUDE.md — BuzzHealth.ai
+# CLAUDE.md — PulseNode.ai
 
 This file is the standing brief for any work in this repository. Read it fully before starting a task. If a request conflicts with something here, ask rather than silently overriding it.
 
-## What BuzzHealth.ai is
+## What PulseNode.ai is
 
 A corporate health-benefits platform. Companies offer their employees tiered health policies (sum insured, individual or family floater cover) and wallet-based annual allowances across three categories: doctor consultations, medicines, and lab tests. Employees describe symptoms and get matched to relevant doctors, then consult either **online (in-app chat)** or **offline (in-person visit)**, receive structured prescriptions, and spend from their wallets. Doctors run their own practice through a portal: managing availability, city/clinic details, consulting, prescribing, and tracking earnings. The backend is built decoupled from any specific client so the same API will serve a mobile app later — never assume the caller is a browser.
 
@@ -34,7 +34,7 @@ Four distinct product surfaces share one backend: the employee app, the doctor p
 ## Repository structure
 
 ```
-buzzhealth/
+pulsenode/
 ├── apps/
 │   ├── web/
 │   │   ├── app/                          → routing only, no business logic
