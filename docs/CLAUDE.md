@@ -101,6 +101,35 @@ Six bounded workflows exist inside the product — full specs in `docs/02-AI-Age
 - E2E coverage for core user journeys: symptom → matched doctors → book (online and offline) → chat/visit → prescription, wallet top-up, cancellation with refund/rebook choice
 - Load tests (k6) for the RAG query endpoint, the doctor-matching endpoint, and the booking endpoint specifically, since these are the most concurrency-sensitive paths
 
+## Policy assignment (employees module) — employer-explicit, no CTC
+
+Employee CTC is never collected or stored anywhere in this system —
+privacy-sensitive and not needed for the product to function. Policy
+assignment is always an explicit choice made by the company admin, not
+inferred by the platform:
+- `employees.position_grade` (e.g. L1, L2, IC1, IC2) is a free-form,
+  employer-defined field used only as a filter/grouping convenience in the
+  admin UI (search + multi-select employees by grade, then bulk-assign a
+  policy). It is never used to auto-select a policy tier.
+- `employees.policy_id` is always set explicitly, by single assignment or
+  bulk multi-select assignment, never inferred from any employee attribute.
+- If an employee has no policy assigned yet, that's a valid, visible state
+  (not an error) — the admin dashboard should surface unassigned employees
+  clearly so the company admin can act on it.
+
+## Policy expiry and unclaimed benefits
+
+- `employees.policy_expiry_date` is set at enrollment (typically the
+  assigned policy version's `effective_to`) and stored on the employee
+  record directly, since a mid-year hire's expiry may differ from the
+  company's standard cycle.
+- At policy-year-end, a scheduled job snapshots each active wallet's
+  remaining balance per category into `wallet_expiry_snapshots`
+  (employee_id, wallet_id, category, unclaimed_amount, policy_year_end)
+  before the wallet lapses or resets. This preserves an unclaimed-benefits
+  record without rewriting wallet ledger history — consistent with the
+  ledger-over-mutable-balance principle above.
+
 ## What to do when something breaks or looks wrong
 
 Say so directly, with your reasoning, rather than quietly working around it. If you generate something and are not confident it's correct — a library API, a query, a piece of business logic — say what you're unsure about rather than presenting it with full confidence.

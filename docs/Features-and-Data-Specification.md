@@ -1,4 +1,4 @@
-# BuzzHealth.ai — Features & Data Specification
+# PulseNode.ai — Features & Data Specification
 
 ## 1. Feature list by module
 

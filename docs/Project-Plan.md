@@ -1,4 +1,4 @@
-# BuzzHealth.ai — Project Plan
+# PulseNode.ai — Project Plan
 
 A corporate health-benefits platform: policy-aware benefits assistant, symptom-based doctor matching, online and offline doctor consultations, prescriptions, category-scoped employee wallets, and doctor earnings — built decoupled so the same backend serves web today and mobile later.
 
@@ -18,7 +18,7 @@ A corporate health-benefits platform: policy-aware benefits assistant, symptom-b
 **Pattern:** Layered (Controller → Service → Repository), monorepo, backend fully decoupled from any client.
 
 ```
-buzzhealth/
+pulsenode/
 ├── apps/
 │   ├── web/
 │   │   ├── app/
