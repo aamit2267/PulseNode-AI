@@ -130,6 +130,25 @@ inferred by the platform:
   record without rewriting wallet ledger history — consistent with the
   ledger-over-mutable-balance principle above.
 
+## Company maintainers (role-based access)
+
+Companies can provision multiple maintainers with different access levels:
+
+1. **admin** — full control. Can add/remove other maintainers, manage employees, assign policies, and perform all write operations.
+2. **maintainer** — read-write access to employees and policies. Cannot manage other maintainers.
+3. **read-only** — read-only access to employee and policy data. Cannot modify anything.
+
+**Rules:**
+- Only `admin` maintainers can call `/companies/:companyId/maintainers` endpoints.
+- Maintainers are identified by email per company (unique constraint on `company_maintainers.company_id, email`).
+- A company must always have at least one `admin` maintainer — the last admin cannot be removed or demoted.
+- Maintainer lists are not visible to non-admin maintainers.
+- The initial admin is created when the company is provisioned (platform admin action, not covered by this API).
+
+**Schema additions:**
+- `roles` table — seeded with `admin`, `read-only`, `maintainer`.
+- `company_maintainers` table — (id, company_id, email, role_id, created_at, updated_at). Unique index on (company_id, email).
+
 ## What to do when something breaks or looks wrong
 
 Say so directly, with your reasoning, rather than quietly working around it. If you generate something and are not confident it's correct — a library API, a query, a piece of business logic — say what you're unsure about rather than presenting it with full confidence.
