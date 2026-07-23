@@ -36,6 +36,16 @@ export const maintainerRoleEnum = pgEnum("maintainer_role", [
   "maintainer",
 ]);
 
+export const doctorStatusEnum = pgEnum("doctor_status", [
+  "pending",
+  "approved",
+  "suspended",
+]);
+export const adminRoleEnum = pgEnum("admin_role", [
+  "platform_admin",
+  "company_admin",
+]);
+
 /* -------------------------------------------------------------------------
    COMPANIES -----------------------------------------------------------------
    ------------------------------------------------------------------------- */
@@ -198,5 +208,144 @@ export const companyMaintainers = pgTable(
     uniqueIndex("company_maintainers_company_email_unique")
       .on(t.companyId, t.email),
     index("company_maintainers_company_idx").on(t.companyId),
+  ],
+);
+
+/* -------------------------------------------------------------------------
+   DOCTORS -------------------------------------------------------------------
+   Doctor profiles with approval status, city, consultation modes, etc.
+   ------------------------------------------------------------------------- */
+export const doctors = pgTable(
+  "doctors",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    firebaseUid: text("firebase_uid").notNull().unique(),
+    email: text("email").notNull(),
+    name: text("name").notNull(),
+    photoUrl: text("photo_url"),
+    status: doctorStatusEnum("status").notNull().default("pending"),
+    city: text("city").notNull(),
+    consultationModes: text("consultation_modes").array().notNull().default([]),
+    clinicAddress: text("clinic_address"),
+    consultationFeeOnline: integer("consultation_fee_online"),
+    consultationFeeOffline: integer("consultation_fee_offline"),
+    currency: text("currency").notNull().default("INR"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    index("doctors_status_idx").on(t.status),
+    index("doctors_city_idx").on(t.city),
+  ],
+);
+
+/* -------------------------------------------------------------------------
+   DOCTOR_EDUCATION ----------------------------------------------------------
+   ------------------------------------------------------------------------- */
+export const doctorEducation = pgTable(
+  "doctor_education",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    doctorId: uuid("doctor_id")
+      .notNull()
+      .references(() => doctors.id, { onDelete: "cascade" }),
+    degree: text("degree").notNull(),
+    institution: text("institution").notNull(),
+    year: integer("year"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [index("doctor_education_doctor_idx").on(t.doctorId)],
+);
+
+/* -------------------------------------------------------------------------
+   DOCTOR_LANGUAGES ----------------------------------------------------------
+   ------------------------------------------------------------------------- */
+export const doctorLanguages = pgTable(
+  "doctor_languages",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    doctorId: uuid("doctor_id")
+      .notNull()
+      .references(() => doctors.id, { onDelete: "cascade" }),
+    language: text("language").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [index("doctor_languages_doctor_idx").on(t.doctorId)],
+);
+
+/* -------------------------------------------------------------------------
+   DOCTOR_AVAILABILITY -------------------------------------------------------
+   ------------------------------------------------------------------------- */
+export const doctorAvailability = pgTable(
+  "doctor_availability",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    doctorId: uuid("doctor_id")
+      .notNull()
+      .references(() => doctors.id, { onDelete: "cascade" }),
+    dayOfWeek: integer("day_of_week").notNull(), // 0-6
+    startTime: text("start_time").notNull(), // HH:mm
+    endTime: text("end_time").notNull(), // HH:mm
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [index("doctor_availability_doctor_idx").on(t.doctorId)],
+);
+
+/* -------------------------------------------------------------------------
+   ADMIN_USERS ---------------------------------------------------------------
+   Platform admins and company admins (manually provisioned)
+   ------------------------------------------------------------------------- */
+export const adminUsers = pgTable(
+  "admin_users",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    firebaseUid: text("firebase_uid").notNull().unique(),
+    email: text("email").notNull().unique(),
+    name: text("name").notNull(),
+    role: adminRoleEnum("role").notNull(),
+    companyId: uuid("company_id").references(() => companies.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    index("admin_users_company_idx").on(t.companyId),
+  ],
+);
+
+/* -------------------------------------------------------------------------
+   TOTP_SECRETS --------------------------------------------------------------
+   Stores TOTP secrets for 2FA (company-mandated MFA)
+   ------------------------------------------------------------------------- */
+export const totpSecrets = pgTable(
+  "totp_secrets",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id").notNull(), // references employees, doctors, or admin_users
+    userType: text("user_type").notNull(), // 'employee', 'doctor', 'admin'
+    secret: text("secret").notNull(),
+    isVerified: boolean("is_verified").notNull().default(false),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    uniqueIndex("totp_secrets_user_unique").on(t.userId, t.userType),
   ],
 );

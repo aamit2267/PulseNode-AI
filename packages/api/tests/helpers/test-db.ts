@@ -12,7 +12,7 @@ export const testDb = drizzle(testPool, { schema });
 
 export async function truncateAll() {
   await testDb.execute(
-    sql`TRUNCATE TABLE dependents, employees, ingestion_batches, policies, companies RESTART IDENTITY CASCADE`,
+    sql`TRUNCATE TABLE doctor_availability, doctor_languages, doctor_education, totp_secrets, admin_users, doctors, dependents, employees, ingestion_batches, policies, companies RESTART IDENTITY CASCADE`,
   );
 }
 

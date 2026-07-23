@@ -133,3 +133,12 @@ lerna-debug.log*
 # OS
 .DS_Store
 Thumbs.db
+
+# Instructions
+docs/Instructions.md
+
+# Firebase service account keys
+*firebase-adminsdk*.json
+*firebase-adminsdk*.pem
+*service-account*.json
+*google-service-account*.json

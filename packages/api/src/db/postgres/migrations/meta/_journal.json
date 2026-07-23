@@ -15,6 +15,13 @@
       "when": 1784527965252,
       "tag": "0001_white_silhouette",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784811339323,
+      "tag": "0002_deep_layla_miller",
+      "breakpoints": true
     }
   ]
 }
