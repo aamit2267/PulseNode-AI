@@ -135,6 +135,7 @@ lerna-debug.log*
 Thumbs.db
 
 # Instructions
+.claude/
 docs/Instructions.md
 
 # Firebase service account keys
